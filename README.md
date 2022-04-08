@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
 
 ## OUTPUT
-![output](./static/img/aioutput.png)
+![output](./static/img/aioutput.PNG)
 </br>
 
 ## RESULT
