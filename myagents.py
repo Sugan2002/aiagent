@@ -1,4 +1,6 @@
+
 import random
+import time
 
 class Thing:
     """
@@ -31,7 +33,6 @@ class Agent(Thing):
 
 def TableDrivenAgentProgram(table):
     """
-    [Figure 2.7]
     This agent selects an action based on the percept sequence.
     It is practical only for tiny domains.
     To customize it, provide as table a dictionary of all
@@ -41,9 +42,8 @@ def TableDrivenAgentProgram(table):
 
     def program(percept):
         action =None
-        """
-        Write your code here
-        """
+        percepts.append(percept)
+        action=table.get(tuple(percepts))
         return action
 
     return program
@@ -170,10 +170,16 @@ class TrivialVacuumEnvironment(Environment):
     def execute_action(self, agent, action):
         """Change agent's location and/or location's status; track performance.
         Score 10 for each dirt cleaned; -1 for each move."""
-
-        """
-        Write your code here
-        """
+        if action=='Right':
+            agent.location = loc_B
+            agent.performance -=1
+        elif action=='Left':
+            agent.location = loc_A
+            agent.performance -=1
+        elif action=='Suck':
+            if self.status[agent.location]=='Dirty':
+                agent.performance+=10
+            self.status[agent.location]='Clean'
 
     def default_location(self, thing):
         """Agents start in either location at random."""
@@ -184,6 +190,13 @@ if __name__ == "__main__":
     agent = TableDrivenVacuumAgent()
     environment = TrivialVacuumEnvironment()
     environment.add_thing(agent)
-    print(environment.status)
-    environment.run()
-    print(agent.performance)
+    print('Starting Action',environment.status)
+    print('\nAgent Location',agent.location)
+    print('\nAgent Performance',agent.performance)
+    time.sleep(5)
+    for i in range(3):
+        print(environment.run(steps=1))
+        print('Ending Action',environment.status)
+        print('\nAgent Location',agent.location)
+        print('\nAgent Performance',agent.performance)
+        time.sleep(5)
